@@ -40,6 +40,9 @@ namespace chim {
 							return out;
 					}
 				}
+				
+				//internal identifier for writing comments
+				const std::string COMMENT_LINE = "#{CHIMCONF_COMMENT_LINE}";
 			public:
 					const static int READ = 0;
 					const static int WRITE = 1;
@@ -73,8 +76,10 @@ namespace chim {
 									//read the file line by line, loading in the key - value pairs
 									std::string line;
 									while (std::getline(this->file, line)) {
-										std::vector<std::string> s = split(line, "=");
-										this->data[s[0]] = s[1];
+										if (line[0] != '#') {
+											std::vector<std::string> s = split(line, "=");
+											this->data[s[0]] = s[1];
+										}
 									}
 									return true;
 							}
@@ -89,7 +94,11 @@ namespace chim {
 							} else {
 									//read the order from the vector, and output the values from the buffer
 									for (std::string name : this->data_order) {
-										this->file << name << '=' << this->data[name] << '\n';
+										if (name.substr(0, COMMENT_LINE.length()) == COMMENT_LINE) {
+											this->file << '#' << name.substr(COMMENT_LINE.length(), std::string::npos) << '\n';
+										} else {
+											this->file << name << '=' << this->data[name] << '\n';
+										}
 									}
 								
 									//and report success
@@ -332,6 +341,18 @@ namespace chim {
 								this->data_order.push_back(name);
 								
 								return true;
+						}
+					}
+					
+					//function to add a comment line to the file
+					bool put_comment(std::string comment) {
+						//if the file isn't in write mode, abort
+						if (this->mode != WRITE) {
+							return false;
+						} else {
+							this->data_order.push_back(COMMENT_LINE + comment);
+							
+							return true;
 						}
 					}
 		};
