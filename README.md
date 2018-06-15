@@ -19,6 +19,7 @@ using namespace chim;
 config_file file("example.config", config_file::WRITE);
 file.put_bool("potatoes_are_good", true);
 file.put_int("num_potatoes", 15);
+file.put_comment("Note: Sweet Potatoes are also good");
 file.put_string("favorite actor", "Danny Devito");
 ```  
 
