@@ -6,8 +6,6 @@
 #include <stdexcept>
 #include <iostream>
 
-//TODO Data is written in the same order added (use the data_order vector)
-
 namespace chim {
 		class config_file {
 			private:
