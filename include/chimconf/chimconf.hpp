@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include <vector>
 #include <sstream>
-#include <stdexcept>
 #include <iostream>
 
 namespace chim {
