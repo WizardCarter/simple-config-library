@@ -107,6 +107,10 @@ namespace chim {
 							this->data_order.erase(this->data_order.begin(), this->data_order.end());
 					}
 					
+					~config_file() {
+						close();
+					}
+					
 					//A series of functions to retrieve values of various types from the buffer
 					
 					bool get_bool(std::string name, bool def=false) {
