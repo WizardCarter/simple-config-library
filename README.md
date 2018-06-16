@@ -42,3 +42,4 @@ You may use chimconf for any project, as long as you do not claim that you creat
 
 FUTURE FEATURES:
 - Read/Write vectors to a single variable
+- Make class RAII compliant
