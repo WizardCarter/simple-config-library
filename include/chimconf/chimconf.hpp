@@ -69,6 +69,13 @@ namespace chim {
 						open();
 					}
 					
+					//make this object non-copyable
+					
+					//can't be copied in a construction
+					config_file(const config_file&) = delete;
+					//can't be copied with = (to functions, etc.)
+					config_file& operator=(const config_file&) = delete;
+					
 					//a function for read mode that reads the data from the file into a buffer
 					bool load() {
 							if (this->mode != READ || !this->file.is_open()) {
