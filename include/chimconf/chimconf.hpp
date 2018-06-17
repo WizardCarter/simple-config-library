@@ -41,20 +41,6 @@ namespace chim {
 					}
 				}
 				
-				//internal identifier for writing comments
-				const std::string COMMENT_LINE = "#{CHIMCONF_COMMENT_LINE}";
-				const std::string EMPTY_LINE = "#{CHIMCONF_EMPTY_LINE}";
-			public:
-					const static int READ = 0;
-					const static int WRITE = 1;
-					
-					//initialize the file
-					config_file(std::string filename, int mode) {
-						this->filename = filename;
-						this->mode = mode;
-					}
-					
-					//actually open the handle and all that
 					bool open() {
 						if (this->mode == READ) {
 								//open the fstream
@@ -67,6 +53,20 @@ namespace chim {
 							//doesn't matter whether or not file exists if we're writing
 							return true;
 						}
+					}
+				
+				//internal identifier for writing comments
+				const std::string COMMENT_LINE = "#{CHIMCONF_COMMENT_LINE}";
+				const std::string EMPTY_LINE = "#{CHIMCONF_EMPTY_LINE}";
+			public:
+					const static int READ = 0;
+					const static int WRITE = 1;
+					
+					//initialize the file
+					config_file(std::string filename, int mode) {
+						this->filename = filename;
+						this->mode = mode;
+						open();
 					}
 					
 					//a function for read mode that reads the data from the file into a buffer
@@ -360,12 +360,14 @@ namespace chim {
 					}
 					
 					//function to add an empty line
-					bool put_empty_line() {
+					bool put_empty_lines(int num = 1) {
 						//if the file isn't in write mode, abort
 						if (this->mode != WRITE) {
 							return false;
 						} else {
-							this->data_order.push_back(EMPTY_LINE);
+							for (int i=0; i < num; i++) {
+								this->data_order.push_back(EMPTY_LINE);
+							}
 							
 							return true;
 						}
