@@ -1,3 +1,5 @@
+#ifndef CHIMCONF_H
+#define CHIMCONF_H
 #include <fstream>
 #include <string>
 #include <unordered_map>
@@ -386,3 +388,4 @@ namespace chim {
 					}
 		};
 }
+#endif
