@@ -12,13 +12,15 @@ With chimconf, you can read/write from configuration files like example.config (
 chim::config_file file("example.config", chim::config_file::READ);
 file.open();
 //load the file into the internal buffer
-file.load();
-//retrieve values
-bool potatoes_are_good = file.get_bool("potatoes_are_good");
-int num_potatoes = file.get_int("num_potatoes");
-std::string fav_actor = file.get_string("favorite actor");
-//close the file
-file.close();
+if (file.is_open()) {
+  file.load();
+  //retrieve values
+  bool potatoes_are_good = file.get_bool("potatoes_are_good");
+  int num_potatoes = file.get_int("num_potatoes");
+  std::string fav_actor = file.get_string("favorite actor");
+  //close the file
+  file.close();
+}
   
 //write to a file
 using namespace chim;
