@@ -76,6 +76,11 @@ namespace chim {
 					//can't be copied with = (to functions, etc.)
 					config_file& operator=(const config_file&) = delete;
 					
+					//function to check if file is open
+					bool is_open() {
+						return this->file.is_open();
+					}
+					
 					//a function for read mode that reads the data from the file into a buffer
 					bool load() {
 							if (this->mode != READ || !this->file.is_open()) {
