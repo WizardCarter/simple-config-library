@@ -25,17 +25,17 @@ if (file.is_open()) {
 //write to a file
 using namespace chim;
 //open the file
-config_file file("example.config", config_file::WRITE);
-file.open();
+config_file file2("example.config", config_file::WRITE);
+file2.open();
 //add some values to the buffer
-file.put_bool("potatoes_are_good", true);
-file.put_int("num_potatoes", 15);
-file.put_comment("Note: Sweet Potatoes are also good");
-file.put_string("favorite actor", "Danny Devito");
+file2.put_bool("potatoes_are_good", true);
+file2.put_int("num_potatoes", 15);
+file2.put_comment("Note: Sweet Potatoes are also good");
+file2.put_string("favorite actor", "Danny Devito");
 //write changes
-file.write_changes();
+file2.write_changes();
 //close the file
-file.close();
+file2.close();
 ```  
 
 Note that this is a C++11 library. For it to compile correctly, you MUST enable C++11 support on your compiler.
