@@ -5,9 +5,28 @@
 #include <unordered_map>
 #include <vector>
 #include <sstream>
-#include <iostream>
 
 namespace chim {
+		//small helper class for writing comments to a file
+		class comment {
+			public:
+				std::string text;
+				
+				comment(std::string cmnt) {
+					text = cmnt;
+				}
+		};
+		
+		//small helper class for writing empty lines to a file
+		class empty_lines {
+			public:
+				unsigned int num_lines;
+				
+				empty_lines(unsigned int num = 1) {
+					num_lines = num;
+				}
+		};
+		
 		class config_file {
 			private:
 				//map to store all loaded data
@@ -267,6 +286,50 @@ namespace chim {
 					
 					//a series of functions to write to the data variable, which acts as a buffer before a final write
 					
+					template <typename T>
+					bool put(std::string name, T val) {
+						//if the file isn't in write mode
+						if (this->mode != WRITE) {
+								//abort
+								return false;
+						} else {
+								//otherwise, format data and add to the buffer
+								std::stringstream ss;
+								ss << val;
+								this->data[name] = ss.str();
+								this->data_order.push_back(name);
+								
+								return true;
+						}
+					}
+					
+					bool put(comment c) {
+						//if the file isn't in write mode
+						if (this->mode != WRITE) {
+								//abort
+								return false;
+						} else {
+								//add comment text to the config file
+								this->data_order.push_back(COMMENT_LINE + c.text);
+								
+								return true;
+						}
+					}
+					
+					bool put(empty_lines lines) {
+					//if the file isn't in write mode
+						if (this->mode != WRITE) {
+								//abort
+								return false;
+						} else {
+								for (int i = 0; i < lines.num_lines ; i++) {
+									this->data_order.push_back(EMPTY_LINE);
+								}
+								return true;
+						}
+					}
+					
+					//THE FOLLOWING FUNCTIONS ARE DEPRECATED
 					bool put_bool(std::string name, bool val) {
 						//if the file isn't in write mode
 						if (this->mode != WRITE) {
