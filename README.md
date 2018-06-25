@@ -28,10 +28,10 @@ using namespace chim;
 config_file file2("example.config", config_file::WRITE);
 file2.open();
 //add some values to the buffer
-file2.put_bool("potatoes_are_good", true);
-file2.put_int("num_potatoes", 15);
-file2.put_comment("Note: Sweet Potatoes are also good");
-file2.put_string("favorite actor", "Danny Devito");
+file2.put("potatoes_are_good", true);
+file2.put("num_potatoes", 15);
+file2.put(comment("Note: Sweet Potatoes are also good"));
+file2.put("favorite actor", "Danny Devito");
 //write changes
 file2.write_changes();
 //close the file
