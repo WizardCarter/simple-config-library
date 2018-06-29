@@ -155,6 +155,59 @@ namespace chim {
 					
 					//A series of functions to retrieve values of various types from the buffer
 					
+					template <typename T>
+					T get(std::string name, T def) {
+						//if the file is in write mode, or data hasn't been loaded yet
+						if (this->mode != READ || this->data.empty()) {
+							return def;
+						} else {
+								//try to access the data and output it
+								if (this->data.find(name) != this->data.end()) {
+										//use a stringstream to format the data
+										std::stringstream ss(this->data[name]);
+										
+										T out;
+										ss >> out;
+										
+										return out;
+								//if no data exists with the name
+								} else {
+									//return default value
+									return def;
+								}
+						}
+					}
+					
+					template <typename T>
+					std::vector<T> gets(std::string name, std::vector<T> def = {}) {
+						//if the file is in write mode, or data hasn't been loaded yet
+						if (this->mode != READ || this->data.empty()) {
+							return def;
+						} else {
+								//try to access the data and output it
+								if (this->data.find(name) != this->data.end()) {
+										//use a stringstream to format the data
+										std::vector<T> out;
+										std::stringstream ss(this->data[name]);
+										std::string temp;
+										
+										while (std::getline(ss, temp, ' ')) {
+											std::stringstream conv(temp);
+											T t;
+											conv >> t;
+											
+											out.push_back(t);
+										}
+										
+										return out;
+								//if no data exists with the name
+								} else {
+									//return default value
+									return def;
+								}
+						}
+					}
+					
 					bool get_bool(std::string name, bool def=false) {
 						//if the file is in write mode, or data hasn't been loaded yet
 						if (this->mode != READ || this->data.empty()) {
