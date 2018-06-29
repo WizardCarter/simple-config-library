@@ -18,6 +18,7 @@ if (file.is_open()) {
   bool potatoes_are_good = file.get_bool("potatoes_are_good");
   int num_potatoes = file.get_int("num_potatoes");
   std::string fav_actor = file.get_string("favorite actor");
+  vector<int> player_color = file.get_ints("color");
   //close the file
   file.close();
 }
@@ -32,6 +33,8 @@ file2.put("potatoes_are_good", true);
 file2.put("num_potatoes", 15);
 file2.put(comment("Note: Sweet Potatoes are also good"));
 file2.put("favorite actor", "Danny Devito");
+vector<int> player_color = {45, 180, 113};
+file2.put("color", player_color);
 //write changes
 file2.write_changes();
 //close the file
