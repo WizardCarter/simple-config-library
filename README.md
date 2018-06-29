@@ -43,5 +43,5 @@ Note that this is a C++11 library. For it to compile correctly, you MUST enable 
 You may use chimconf for any project, as long as you do not claim that you created it and any copies you distribute include the license and this file. Though it's not required, a link back to the github page for this project in your credits would be appretiated. Additionally, if you do something cool with chimconf, please let me know. I'd love to see what you do with it.
 
 FUTURE FEATURES:
-- Read/Write vectors to a single variable
-- Make class RAII compliant
+- Throw exceptions if there is an error opening the file (RAII)
+- Make interfacing more intuitive using `std::pair`s and the `<<` and `>>` operators.
