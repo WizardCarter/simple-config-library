@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <vector>
 #include <sstream>
-#include <iostream>
 
 namespace chim {
 		//small helper class for writing comments to a file
@@ -614,6 +613,25 @@ namespace chim {
 								}
 								return true;
 						}
+					}
+					
+					//insert an std::pair with the stream insertion operator
+					template <typename T>
+					config_file& operator<<(std::pair<std::string, T> val) {
+						this->put(val);
+						return *this;
+					}
+					
+					//insert a comment with the stream insertion operator
+					config_file& operator<<(comment c) {
+						this->put(c);
+						return *this;
+					}
+					
+					//insert a number of empty lines with the stream insertion operator
+					config_file& operator<<(empty_lines lines) {
+						this->put(lines);
+						return *this;
 					}
 					
 					//THE FOLLOWING FUNCTIONS ARE DEPRECATED
