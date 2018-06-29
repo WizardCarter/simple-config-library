@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 #include <sstream>
+#include <iostream>
 
 namespace chim {
 		//small helper class for writing comments to a file
@@ -529,6 +530,24 @@ namespace chim {
 						}
 					}
 					
+					//ditto as above, but with an std::pair
+					template <typename T>
+					bool put(std::pair<std::string, T> val) {
+						//if the file isn't in write mode
+						if (this->mode != WRITE) {
+								//abort
+								return false;
+						} else {
+								//otherwise, format data and add to the buffer
+								std::stringstream ss;
+								ss << val.second;
+								this->data[val.first] = ss.str();
+								this->data_order.push_back(val.first);
+								
+								return true;
+						}
+					}
+					
 					//put multiple values under one identifier
 					template <typename T>
 					bool put(std::string name, std::vector<T> val) {
@@ -545,6 +564,27 @@ namespace chim {
 								
 								this->data[name] = ss.str();
 								this->data_order.push_back(name);
+								
+								return true;
+						}
+					}
+					
+					//ditto as above, but with std::pair
+					template <typename T>
+					bool put(std::pair<std::string, std::vector<T>> val) {
+						//if the file isn't in write mode
+						if (this->mode != WRITE) {
+								//abort
+								return false;
+						} else {
+								//otherwise, format data and add to the buffer
+								std::stringstream ss;
+								for (T temp : val.second) {
+									ss << temp << ' ';
+								}
+								
+								this->data[val.first] = ss.str();
+								this->data_order.push_back(val.first);
 								
 								return true;
 						}
