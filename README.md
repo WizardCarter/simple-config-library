@@ -48,3 +48,5 @@ You may use chimconf for any project, as long as you do not claim that you creat
 FUTURE FEATURES:
 - Throw exceptions if there is an error opening the file (RAII)
 - Make interfacing more intuitive using `std::pair`s and the `<<` and `>>` operators.
+- Make the class work with iterators
+- Make the class work with range-based `for` loops
