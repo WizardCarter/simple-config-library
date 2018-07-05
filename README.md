@@ -9,7 +9,7 @@ With SCL, you can read/write from configuration files like example.config (provi
 //read from a file
 
 //open the file
-scl::config_file file("example.config", chim::config_file::READ);
+scl::config_file file("example.config", scl::config_file::READ);
 file.open();
 //load the file into the internal buffer
 if (file.is_open()) {
