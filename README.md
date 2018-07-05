@@ -1,7 +1,7 @@
 # Simple Config Library (SCL)
 A fast, lightweight, header-only C++11 library for reading and writing from human-readable configuration files.
 
-https://github.com/WizardCarter/chimconf
+https://github.com/WizardCarter/simple-config-library
 
 With SCL, you can read/write from configuration files like example.config (provided) using simple code like the following:
 
