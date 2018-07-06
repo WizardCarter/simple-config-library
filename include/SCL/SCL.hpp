@@ -5,8 +5,13 @@
 #include <unordered_map>
 #include <vector>
 #include <sstream>
+#include <stdexcept>
 
 namespace scl {
+	//internal identifiers for writing comments/empty lines
+	const std::string COMMENT_LINE = "#{_COMMENT_LINE}";
+	const std::string EMPTY_LINE = "#{_EMPTY_LINE}";
+	
 		//small helper class for writing comments to a file
 		class comment {
 			public:
@@ -32,7 +37,7 @@ namespace scl {
 				//map to store all loaded data
 				std::unordered_map<std::string, std::string> data;
 				
-				//vector to store the order it was added (for writing)
+				//vector to store the order it was added
 				std::vector<std::string> data_order;
 				
 				//stores the filename for the config file
@@ -45,7 +50,7 @@ namespace scl {
 				int mode;
 				
 				//function to split a string into two pieces around a phrase
-				std::vector<std::string> split(std::string s, std::string phrase) {
+				static std::vector<std::string> split(std::string s, std::string phrase) {
 					int pos = s.find(phrase);
 					if (pos != std::string::npos) {
 						std::vector<std::string> out;
@@ -62,26 +67,205 @@ namespace scl {
 					}
 				}
 				
-					bool open() {
-						if (this->mode == READ) {
-								//open the fstream
-								this->file.open(filename, std::fstream::in);
-								//and return whether the file exists
-								return this->file.is_open();
-						} else {
-							//open the fstream
-							this->file.open(filename, std::fstream::out);
-							//doesn't matter whether or not file exists if we're writing
-							return true;
-						}
+				bool open() {
+					if (this->mode == READ) {
+						//open the fstream
+						this->file.open(filename, std::fstream::in);
+						//and return whether the file exists
+						return this->file.is_open();
+					} else {
+						//open the fstream
+						this->file.open(filename, std::fstream::out);
+						//doesn't matter whether or not file exists if we're writing
+						return true;
 					}
-				
-				//internal identifier for writing comments
-				const std::string COMMENT_LINE = "#{_COMMENT_LINE}";
-				const std::string EMPTY_LINE = "#{_EMPTY_LINE}";
+				}
 			public:
 					const static int READ = 0;
 					const static int WRITE = 1;
+					
+					//iterator class
+					class iterator {
+						private:
+							//nternal iterator for data_order
+							std::vector<std::string>::iterator it;
+							
+							//pointer to the config_file's data
+							std::unordered_map<std::string, std::string> *data;
+							
+							//does a string start with a value?
+							static bool starts_with(std::string s, std::string phrase) {
+								if (phrase.length() > s.length()) {
+									return false;
+								} else {
+									return (s.substr(0, phrase.length()) == phrase);
+								}
+							}
+							
+							//make config_file friend
+							friend class config_file;
+							
+							//private constructor (for begin/end)
+							iterator(std::vector<std::string>::iterator it, std::unordered_map<std::string, std::string> *data) {
+								this->it = it;
+								this->data = data;
+							}
+						public:
+							
+							//empty constructor
+							iterator() {}
+							
+							//copy constructor
+							iterator(const iterator& other) {
+								this->it = other.it;
+								this->data = other.data;
+							}
+							
+							//assignment operator
+							void operator=(const iterator& other) {
+								this->it = other.it;
+								this->data = other.data;
+							}
+							
+							//binary operators
+							//addition
+							iterator operator+(const int& i) {
+								iterator it;
+								//add to the data_order iterator
+								it.it = this->it + i;
+								//and use the previous data pointer
+								it.data = this->data;
+								
+								return it;
+							}
+							
+							//subtaction
+							iterator operator-(const int& i) {
+								iterator it;
+								//subtract from the internal iterator
+								it.it = this->it - i;
+								//and use the previous data pointer
+								it.data = this->data;
+								
+								return it;
+							}
+							
+							//compound assignment operators
+							//addition
+							void operator+=(const int& i) {
+								this->it += i;
+							}
+							
+							//subtraction
+							void operator-=(const int& i) {
+								this->it -= i;
+							}
+							
+							//dereference operator 
+							std::pair<std::string, std::string> operator*() {
+								if (data == nullptr) {
+									throw std::runtime_error("iterator is uninitialized!");
+								}
+								
+								//pair to output
+								std::pair<std::string, std::string> p;							
+								
+								//set the second part to the value, if it isn't a comment or empty line
+								if (*it == EMPTY_LINE) {
+									p.first = EMPTY_LINE;
+									p.second = "";
+								} else if (starts_with(*it, COMMENT_LINE)) {
+									//if it is a comment, set the name and value accordingly
+									p.first = COMMENT_LINE;
+									p.second = it->substr(COMMENT_LINE.length());
+								} else {
+									p.first = *it;
+									p.second = (*data)[*it];
+								}
+								
+								return p;
+							}
+							
+							//subscript operator
+							std::pair<std::string, std::string> operator[](unsigned int index) {
+								return *(*this + index);
+							}
+							
+							//relational operators
+							//equality operator
+							bool operator==(const iterator& other) {
+								return (this->it == other.it);
+							}
+							
+							//inequality operator
+							bool operator!=(const iterator& other) {
+								return (this->it != other.it);
+							}
+							
+							//greater than
+							bool operator>(const iterator& other) {
+								return (this->it > other.it);
+							}
+							//greater than or equal to
+							bool operator>=(const iterator& other) {
+								return (*this > other || *this == other);
+							}
+							
+							//less than
+							bool operator<(const iterator& other) {
+								return (this->it < other.it);
+							}
+							//less than or equal to
+							bool operator<=(const iterator& other) {
+								return (*this < other || *this == other);
+							}
+							
+							//prefix increment operator
+							iterator operator++() {
+								//increment the data_order iterator
+								(this->it)++;
+								return *this;
+							}
+							//postfix increment
+							iterator operator++(int) {
+								//increment the data_order iterator
+								iterator temp = *this;
+								++(*this);
+								return temp;
+							}
+							
+							//prefix decrement operator
+							iterator operator--() {
+								(this->it)--;
+								return *this;
+							}
+							//postfix decrement
+							iterator operator--(int) {
+								iterator temp = *this;
+								--(*this);
+								return temp;
+							}
+							
+							~iterator() {
+								//currently empty
+							}
+					};
+					
+					iterator begin() {
+						iterator it;
+						it.it = this->data_order.begin();
+						it.data = &(this->data);
+						
+						return it;
+					}
+					
+					iterator end() {
+						iterator it;
+						it.it = this->data_order.end();
+						it.data = &(this->data);
+						
+						return it;
+					}
 					
 					//initialize the file
 					config_file(std::string filename, int mode) {
@@ -91,7 +275,6 @@ namespace scl {
 					}
 					
 					//make this object non-copyable
-					
 					//can't be copied in a construction
 					config_file(const config_file&) = delete;
 					//can't be copied with = (to functions, etc.)
@@ -756,5 +939,14 @@ namespace scl {
 						}
 					}
 		};
+		
+		//functions to return iterators for a given config_file (range-based for loops)
+		config_file::iterator begin(config_file& file) {
+			return file.begin();
+		}
+		
+		config_file::iterator end(config_file& file) {
+			return file.end();
+		}
 }
 #endif
