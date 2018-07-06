@@ -161,7 +161,7 @@ namespace scl {
 								this->it -= i;
 							}
 							
-							//dereference operator 
+							//dereference operator (TODO: Make this work for write operations as well)
 							std::pair<std::string, std::string> operator*() {
 								if (data == nullptr) {
 									throw std::runtime_error("iterator is uninitialized!");
@@ -816,127 +816,6 @@ namespace scl {
 					config_file& operator<<(empty_lines lines) {
 						this->put(lines);
 						return *this;
-					}
-					
-					//THE FOLLOWING FUNCTIONS ARE DEPRECATED
-					bool put_bool(std::string name, bool val) {
-						//if the file isn't in write mode
-						if (this->mode != WRITE) {
-								//abort
-								return false;
-						} else {
-								//otherwise, format data and add to the buffer
-								std::stringstream ss;
-								ss << val;
-								this->data[name] = ss.str();
-								this->data_order.push_back(name);
-								
-								return true;
-						}
-					}
-					
-					bool put_int(std::string name, int val) {
-						//if the file isn't in write mode
-						if (this->mode != WRITE) {
-								//abort
-								return false;
-						} else {
-								//otherwise, format data and add to the buffer
-								std::stringstream ss;
-								ss << val;
-								this->data[name] = ss.str();
-								this->data_order.push_back(name);
-								
-								return true;
-						}
-					}
-					
-					bool put_float(std::string name, float val) {
-						//if the file isn't in write mode
-						if (this->mode != WRITE) {
-								//abort
-								return false;
-						} else {
-								//otherwise, format data and add to the buffer
-								std::stringstream ss;
-								ss << val;
-								this->data[name] = ss.str();
-								this->data_order.push_back(name);
-								
-								return true;
-						}
-					}
-					
-					bool put_double(std::string name, double val) {
-						//if the file isn't in write mode
-						if (this->mode != WRITE) {
-								//abort
-								return false;
-						} else {
-								//otherwise, format data and add to the buffer
-								std::stringstream ss;
-								ss << val;
-								this->data[name] = ss.str();
-								this->data_order.push_back(name);
-								
-								return true;
-						}
-					}
-					
-					bool put_char(std::string name, char val) {
-						//if the file isn't in write mode
-						if (this->mode != WRITE) {
-								//abort
-								return false;
-						} else {
-								//otherwise, format data and add to the buffer
-								std::stringstream ss;
-								ss << val;
-								this->data[name] = ss.str();
-								this->data_order.push_back(name);
-								
-								return true;
-						}
-					}
-					
-					bool put_string(std::string name, std::string val) {
-						//if the file isn't in write mode
-						if (this->mode != WRITE) {
-								//abort
-								return false;
-						} else {
-								//data is already correctly formatted, add it to buffer
-								this->data[name] = val;
-								this->data_order.push_back(name);
-								
-								return true;
-						}
-					}
-					
-					//function to add a comment line to the file
-					bool put_comment(std::string comment) {
-						//if the file isn't in write mode, abort
-						if (this->mode != WRITE) {
-							return false;
-						} else {
-							this->data_order.push_back(COMMENT_LINE + comment);
-							
-							return true;
-						}
-					}
-					
-					//function to add an empty line
-					bool put_empty_lines(int num = 1) {
-						//if the file isn't in write mode, abort
-						if (this->mode != WRITE) {
-							return false;
-						} else {
-							for (int i=0; i < num; i++) {
-								this->data_order.push_back(EMPTY_LINE);
-							}
-							
-							return true;
-						}
 					}
 		};
 		
