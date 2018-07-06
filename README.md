@@ -6,39 +6,38 @@ https://github.com/WizardCarter/simple-config-library
 With SCL, you can read/write from configuration files like example.config (provided) using simple code like the following:
 
 ```c++
-//read from a file
-
-//open the file
-scl::config_file file("example.config", scl::config_file::READ);
-file.open();
-//load the file into the internal buffer
-if (file.is_open()) {
-  file.load();
-  //retrieve values
-  bool potatoes_are_good = file.get_bool("potatoes_are_good");
-  int num_potatoes = file.get_int("num_potatoes");
-  std::string fav_actor = file.get_string("favorite actor");
-  vector<int> player_color = file.get_ints("color");
-  //close the file
-  file.close();
-}
-  
 //write to a file
 using namespace scl;
 //open the file
-config_file file2("example.config", config_file::WRITE);
-file2.open();
+config_file file("example.config", config_file::WRITE);
+file.open();
 //add some values to the buffer
-file2.put("potatoes_are_good", true);
-file2.put("num_potatoes", 15);
-file2.put(comment("Note: Sweet Potatoes are also good"));
-file2.put("favorite actor", "Danny Devito");
+file.put("potatoes_are_good", true);
+file.put("num_potatoes", 15);
+file.put(comment("Note: Sweet Potatoes are also good"));
+file.put("favorite actor", "Danny Devito");
 vector<int> player_color = {45, 180, 113};
-file2.put("color", player_color);
+file.put("color", player_color);
 //write changes
-file2.write_changes();
+file.write_changes();
 //close the file
-file2.close();
+file.close();
+
+//read from a file
+//open the file
+config_file rfile("example.config", config_file::READ);
+rfile.open();
+//load the file into the internal buffer
+if (rfile.is_open()) {
+  rfile.load();
+  //retrieve values
+  bool potatoes_are_good = rfile.get_bool("potatoes_are_good");
+  int num_potatoes = rfile.get_int("num_potatoes");
+  std::string fav_actor = rfile.get_string("favorite actor");
+  vector<int> player_color = rfile.get_ints("color");
+  //close the file
+  rfile.close();
+}
 ```  
 
 Note that this is a C++11 library. For it to compile correctly, you MUST enable C++11 support on your compiler.
