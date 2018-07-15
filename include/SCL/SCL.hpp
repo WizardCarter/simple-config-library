@@ -277,7 +277,9 @@ namespace scl {
 					//make this object non-copyable
 					//can't be copied in a construction
 					config_file(const config_file&) = delete;
-					//can't be copied with = (to functions, etc.)
+					//can't be "moved" from another (rvalue constructor)
+					config_file(const config_file&&) = delete;
+					//can't be assigned with = (to functions, etc.)
 					config_file& operator=(const config_file&) = delete;
 					
 					//function to check if file is open
