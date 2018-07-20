@@ -279,7 +279,7 @@ namespace scl {
 					config_file(const config_file&) = delete;
 					//can't be "moved" from another (rvalue constructor)
 					config_file(const config_file&&) = delete;
-					//can't be assigned with = (to functions, etc.)
+					//can't be assigned with =
 					config_file& operator=(const config_file&) = delete;
 					
 					//function to check if file is open
@@ -342,7 +342,7 @@ namespace scl {
 					//A series of functions to retrieve values of various types from the buffer
 					
 					template <typename T>
-					T get(std::string name, T def) {
+					T get(std::string name, T def = {}) {
 						//if the file is in write mode, or data hasn't been loaded yet
 						if (this->mode != READ || this->data.empty()) {
 							return def;
@@ -394,6 +394,7 @@ namespace scl {
 						}
 					}
 					
+					//DEPRECATED: SUBJECT TO REMOVAL IN A FUTURE VERSION OF SCL
 					bool get_bool(std::string name, bool def=false) {
 						//if the file is in write mode, or data hasn't been loaded yet
 						if (this->mode != READ || this->data.empty()) {
