@@ -1,6 +1,6 @@
 # Contributing Guidlines for chimconf
 chimconf is designed to be small, lightweight, and header-only. Unless your addition is going to solve world hunger,
-make sure additions are as small as possible and can use only headers. 
+make sure additions are as small as possible and can work in a header-only environment. 
 
 Style Guidlines:
 - Header file names should end in .hpp
