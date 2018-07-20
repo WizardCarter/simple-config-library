@@ -3,8 +3,16 @@ A fast, lightweight, header-only and well-documented C++11 library for reading a
 
 https://github.com/WizardCarter/simple-config-library
 
-With SCL, you can read/write from configuration files like example.config (provided) using simple code like the following:
+With SCL, you can read/write from configuration files like `example.config`:
+```
+potatoes_are_good=1
+num_potatos=15
+#Note: Sweet Potatoes are also good
+favorite actor=Danny Devito
+color=45 180 113
+```
 
+using simple code like the following:
 ```c++
 //write to a file
 using namespace scl;
