@@ -39,10 +39,10 @@ rfile.open();
 if (rfile.is_open()) {
   rfile.load();
   //retrieve values
-  bool potatoes_are_good = rfile.get_bool("potatoes_are_good");
-  int num_potatoes = rfile.get_int("num_potatoes");
-  std::string fav_actor = rfile.get_string("favorite actor");
-  vector<int> player_color = rfile.get_ints("color");
+  bool potatoes_are_good = rfile.get<bool>("potatoes_are_good");
+  int num_potatoes = rfile.get<int>("num_potatoes");
+  std::string fav_actor = rfile.get<string>("favorite actor");
+  vector<int> player_color = rfile.gets<int>("color");
   //close the file
   rfile.close();
 }
