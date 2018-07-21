@@ -57,4 +57,5 @@ You may use SCL for any project, as long as you do not claim that you created it
 FUTURE FEATURES:
 - Let user specify the divider character for vectors
 - Throw exceptions if there is an error opening the file (RAII)
+- Make library more thread-safe
 - Allow writing with iterators
