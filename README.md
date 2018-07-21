@@ -55,5 +55,6 @@ For more information on how to properly use SCL, see the [wiki on Github](https:
 You may use SCL for any project, as long as you do not claim that you created it and any copies you distribute include the license and this file. Though it's not required, a link back to the Github page for this project in your credits would be appretiated. Additionally, if you do something cool with SCL, please let me know. I'd love to see what you do with it.
 
 FUTURE FEATURES:
-- Allow writing with iterators
+- Let user specify the divider character for vectors
 - Throw exceptions if there is an error opening the file (RAII)
+- Allow writing with iterators
