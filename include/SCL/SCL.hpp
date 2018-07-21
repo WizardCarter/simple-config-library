@@ -700,7 +700,7 @@ namespace scl {
 					
 					//put a single name-value pair
 					template <typename T>
-					bool put(std::string name, T val) {
+					bool put(std::string name, const T& val) {
 						//if the file isn't in write mode
 						if (this->mode != WRITE) {
 								//abort
@@ -718,7 +718,7 @@ namespace scl {
 					
 					//ditto as above, but with an std::pair
 					template <typename T>
-					bool put(std::pair<std::string, T> val) {
+					bool put(const std::pair<std::string, T>& val) {
 						//if the file isn't in write mode
 						if (this->mode != WRITE) {
 								//abort
@@ -736,7 +736,7 @@ namespace scl {
 					
 					//put multiple values under one identifier
 					template <typename T>
-					bool put(std::string name, std::vector<T> val) {
+					bool put(std::string name, const std::vector<T>& val) {
 						//if the file isn't in write mode
 						if (this->mode != WRITE) {
 								//abort
@@ -757,7 +757,7 @@ namespace scl {
 					
 					//ditto as above, but with std::pair
 					template <typename T>
-					bool put(std::pair<std::string, std::vector<T>> val) {
+					bool put(const std::pair<std::string, std::vector<T>>& val) {
 						//if the file isn't in write mode
 						if (this->mode != WRITE) {
 								//abort
