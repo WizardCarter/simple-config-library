@@ -776,7 +776,7 @@ namespace scl {
 						}
 					}
 					
-					bool put(comment c) {
+					bool put(const comment& c) {
 						//if the file isn't in write mode
 						if (this->mode != WRITE) {
 								//abort
@@ -789,7 +789,7 @@ namespace scl {
 						}
 					}
 					
-					bool put(empty_lines lines) {
+					bool put(const empty_lines& lines) {
 					//if the file isn't in write mode
 						if (this->mode != WRITE) {
 								//abort
