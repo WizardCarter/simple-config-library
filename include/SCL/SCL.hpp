@@ -49,6 +49,9 @@ namespace scl {
 				//the mode for the opened file
 				int mode;
 				
+				//the character used to seperate parts of a key for a list of values
+				char separator;
+				
 				//function to split a string into two pieces around a phrase
 				static std::vector<std::string> split(std::string s, std::string phrase) {
 					int pos = s.find(phrase);
@@ -268,9 +271,10 @@ namespace scl {
 					}
 					
 					//initialize the file
-					config_file(std::string filename, int mode) {
+					config_file(std::string filename, int mode, char seperator = ' ') {
 						this->filename = filename;
 						this->mode = mode;
+						this->separator = seperator;
 						open();
 					}
 					
@@ -377,7 +381,7 @@ namespace scl {
 										std::stringstream ss(this->data[name]);
 										std::string temp;
 										
-										while (std::getline(ss, temp, ' ')) {
+										while (std::getline(ss, temp, separator)) {
 											std::stringstream conv(temp);
 											T t;
 											conv >> t;
@@ -745,7 +749,7 @@ namespace scl {
 								//otherwise, format data and add to the buffer
 								std::stringstream ss;
 								for (T temp : val) {
-									ss << temp << ' ';
+									ss << temp << separator;
 								}
 								
 								this->data[name] = ss.str();
@@ -766,7 +770,7 @@ namespace scl {
 								//otherwise, format data and add to the buffer
 								std::stringstream ss;
 								for (T temp : val.second) {
-									ss << temp << ' ';
+									ss << temp << separator;
 								}
 								
 								this->data[val.first] = ss.str();
