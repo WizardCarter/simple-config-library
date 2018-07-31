@@ -346,7 +346,7 @@ namespace scl {
 					//A series of functions to retrieve values of various types from the buffer
 					
 					template <typename T>
-					T get(std::string name, T def = {}) {
+					T get(const std::string name, const T def = {}) const {
 						//if the file is in write mode, or data hasn't been loaded yet
 						if (this->mode != READ || this->data.empty()) {
 							return def;
@@ -354,7 +354,7 @@ namespace scl {
 								//try to access the data and output it
 								if (this->data.find(name) != this->data.end()) {
 										//use a stringstream to format the data
-										std::stringstream ss(this->data[name]);
+										std::stringstream ss(this->data.at(name));
 										
 										T out;
 										ss >> out;
@@ -369,7 +369,7 @@ namespace scl {
 					}
 					
 					template <typename T>
-					std::vector<T> gets(std::string name, std::vector<T> def = {}) {
+					std::vector<T> gets(const std::string name, const std::vector<T> def = {}) const {
 						//if the file is in write mode, or data hasn't been loaded yet
 						if (this->mode != READ || this->data.empty()) {
 							return def;
@@ -378,7 +378,7 @@ namespace scl {
 								if (this->data.find(name) != this->data.end()) {
 										//use a stringstream to format the data
 										std::vector<T> out;
-										std::stringstream ss(this->data[name]);
+										std::stringstream ss(this->data.at(name));
 										std::string temp;
 										
 										while (std::getline(ss, temp, separator)) {
@@ -704,7 +704,7 @@ namespace scl {
 					
 					//put a single name-value pair
 					template <typename T>
-					bool put(std::string name, const T& val) {
+					bool put(const std::string name, const T& val) {
 						//if the file isn't in write mode
 						if (this->mode != WRITE) {
 								//abort
@@ -739,8 +739,9 @@ namespace scl {
 					}
 					
 					//put multiple values under one identifier
+					//with vector
 					template <typename T>
-					bool put(std::string name, const std::vector<T>& val) {
+					bool put(const std::string name, const std::vector<T>& val) {
 						//if the file isn't in write mode
 						if (this->mode != WRITE) {
 								//abort
@@ -799,7 +800,7 @@ namespace scl {
 								//abort
 								return false;
 						} else {
-								for (int i = 0; i < lines.num_lines ; i++) {
+								for (unsigned int i = 0; i < lines.num_lines ; i++) {
 									this->data_order.push_back(EMPTY_LINE);
 								}
 								return true;
