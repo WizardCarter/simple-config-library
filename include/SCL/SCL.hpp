@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 #include <sstream>
+#include <utility>
 #include <stdexcept>
 
 namespace scl {
@@ -277,10 +278,13 @@ namespace scl {
 					//make this object non-copyable
 					//can't be copied in a construction
 					config_file(const config_file&) = delete;
-					//can't be moved from
-					config_file(const config_file&&) = delete;
 					//can't be copy assigned
 					config_file& operator=(const config_file&) = delete;
+					
+					//default move constructor
+					config_file (config_file&&) = default;
+					//default move assignment
+					config_file& operator=(config_file&&) = default;
 					
 					//function to check if file is open
 					bool is_open() {
