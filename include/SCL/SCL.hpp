@@ -40,9 +40,6 @@ namespace scl {
 				//vector to store the order it was added
 				std::vector<std::string> data_order;
 				
-				//stores the filename for the config file
-				std::string filename;
-				
 				//handle to the file
 				std::fstream file;
 				
@@ -70,7 +67,7 @@ namespace scl {
 					}
 				}
 				
-				bool open() {
+				bool open(std::string filename) {
 					if (this->mode == READ) {
 						//open the fstream
 						this->file.open(filename, std::fstream::in);
@@ -272,18 +269,17 @@ namespace scl {
 					
 					//initialize the file
 					config_file(std::string filename, int mode, char seperator = ' ') {
-						this->filename = filename;
 						this->mode = mode;
 						this->separator = seperator;
-						open();
+						open(filename);
 					}
 					
 					//make this object non-copyable
 					//can't be copied in a construction
 					config_file(const config_file&) = delete;
-					//can't be "moved" from another (rvalue constructor)
+					//can't be moved from
 					config_file(const config_file&&) = delete;
-					//can't be assigned with =
+					//can't be copy assigned
 					config_file& operator=(const config_file&) = delete;
 					
 					//function to check if file is open
