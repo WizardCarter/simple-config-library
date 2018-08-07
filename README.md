@@ -18,7 +18,6 @@ using simple code like the following:
 using namespace scl;
 //open the file
 config_file file("example.config", config_file::WRITE);
-file.open();
 //add some values to the buffer
 file.put("potatoes_are_good", true);
 file.put("num_potatoes", 15);
@@ -34,18 +33,13 @@ file.close();
 //read from a file
 //open the file
 config_file rfile("example.config", config_file::READ);
-rfile.open();
-//load the file into the internal buffer
-if (rfile.is_open()) {
-  rfile.load();
-  //retrieve values
-  bool potatoes_are_good = rfile.get<bool>("potatoes_are_good");
-  int num_potatoes = rfile.get<int>("num_potatoes");
-  std::string fav_actor = rfile.get<string>("favorite actor");
-  vector<int> player_color = rfile.gets<int>("color");
-  //close the file
-  rfile.close();
-}
+//retrieve values
+bool potatoes_are_good = rfile.get<bool>("potatoes_are_good");
+int num_potatoes = rfile.get<int>("num_potatoes");
+std::string fav_actor = rfile.get<string>("favorite actor");
+vector<int> player_color = rfile.gets<int>("color");
+//close the file
+rfile.close();
 ```  
 
 Note that this is a C++11 library. For it to compile correctly, you MUST enable C++11 support on your compiler.
@@ -57,4 +51,3 @@ You may use SCL for any project, as long as you do not claim that you created it
 FUTURE FEATURES:
 - Make library more thread-safe
 - Allow writing with iterators
-- Throw exceptions if there is an error opening the file (RAII)
