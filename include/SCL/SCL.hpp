@@ -6,6 +6,7 @@
 #include <vector>
 #include <sstream>
 #include <utility>
+#include <exception>
 #include <stdexcept>
 
 namespace scl {
@@ -30,6 +31,14 @@ namespace scl {
 				
 				empty_lines(unsigned int num = 1) {
 					num_lines = num;
+				}
+		};
+		
+		//exception thrown if the file could not be opened
+		class could_not_open_error : public std::exception {
+			public:
+				virtual const char* what() const throw() {
+					return "SCL: File could not be opened!";
 				}
 		};
 		
@@ -68,17 +77,38 @@ namespace scl {
 					}
 				}
 				
-				bool open(std::string filename) {
+				//a function for read mode that reads the data from the file into a buffer
+				void load() {
+					//read the file line by line, loading in the key - value pairs
+					std::string line;
+					while (std::getline(this->file, line)) {
+						if (line[0] != '#' && !line.empty()) {
+							std::vector<std::string> s = split(line, "=");
+							this->data_order.push_back(s[0]);
+							this->data[s[0]] = s[1];
+						}
+					}
+				}
+				
+				void open(std::string filename) {
 					if (this->mode == READ) {
 						//open the fstream
 						this->file.open(filename, std::fstream::in);
-						//and return whether the file exists
-						return this->file.is_open();
+						//make sure the file is open
+						if (!this->file.is_open()) {
+							throw could_not_open_error();
+						} else {
+							//load the file
+							load();
+						}
 					} else {
 						//open the fstream
 						this->file.open(filename, std::fstream::out);
-						//doesn't matter whether or not file exists if we're writing
-						return true;
+						//make sure file is open
+						if (!this->file.is_open()) {
+							//if it isn't, throw an exception
+							throw could_not_open_error();
+						}
 					}
 				}
 			public:
@@ -285,29 +315,6 @@ namespace scl {
 					config_file (config_file&&) = default;
 					//default move assignment
 					config_file& operator=(config_file&&) = default;
-					
-					//function to check if file is open
-					bool is_open() {
-						return this->file.is_open();
-					}
-					
-					//a function for read mode that reads the data from the file into a buffer
-					bool load() {
-							if (this->mode != READ || !this->file.is_open()) {
-								return false;
-							} else {
-									//read the file line by line, loading in the key - value pairs
-									std::string line;
-									while (std::getline(this->file, line)) {
-										if (line[0] != '#' && !line.empty()) {
-											std::vector<std::string> s = split(line, "=");
-											this->data_order.push_back(s[0]);
-											this->data[s[0]] = s[1];
-										}
-									}
-									return true;
-							}
-					}
 					
 					//a function for write mode that saves changes from the buffer (the data variable) to the file
 					bool write_changes() {
