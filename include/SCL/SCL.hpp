@@ -54,10 +54,10 @@ namespace scl {
 				std::fstream file;
 				
 				//the mode for the opened file
-				int mode;
+				const int mode;
 				
 				//the character used to seperate parts of a key for a list of values
-				char separator;
+				const char separator;
 				
 				//function to split a string into two pieces around a phrase
 				static std::vector<std::string> split(std::string s, std::string phrase) {
@@ -299,9 +299,8 @@ namespace scl {
 					}
 					
 					//initialize the file
-					config_file(const std::string& filename, const int mode, const char seperator = ' ') {
-						this->mode = mode;
-						this->separator = seperator;
+					config_file(const std::string& filename, const int mode, const char separator = ' ') : mode(mode), separator(separator) 
+					{
 						open(filename);
 					}
 					
