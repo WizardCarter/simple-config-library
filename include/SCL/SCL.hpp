@@ -299,7 +299,7 @@ namespace scl {
 					}
 					
 					//initialize the file
-					config_file(const std::string filename, const int mode, const char seperator = ' ') {
+					config_file(const std::string& filename, const int mode, const char seperator = ' ') {
 						this->mode = mode;
 						this->separator = seperator;
 						open(filename);
