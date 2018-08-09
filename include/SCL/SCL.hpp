@@ -353,7 +353,7 @@ namespace scl {
 					//A series of functions to retrieve values of various types from the buffer
 					
 					template <typename T>
-					T get(const std::string name, const T def = {}) const {
+					T get(const std::string& name, const T& def = {}) const {
 						//if the file is in write mode, or data hasn't been loaded yet
 						if (this->mode != READ || this->data.empty()) {
 							return def;
@@ -376,7 +376,7 @@ namespace scl {
 					}
 					
 					template <typename T>
-					std::vector<T> gets(const std::string name, const std::vector<T> def = {}) const {
+					std::vector<T> gets(const std::string& name, const std::vector<T>& def = {}) const {
 						//if the file is in write mode, or data hasn't been loaded yet
 						if (this->mode != READ || this->data.empty()) {
 							return def;
@@ -409,7 +409,7 @@ namespace scl {
 					
 					//put a single name-value pair
 					template <typename T>
-					bool put(const std::string name, const T& val) {
+					bool put(const std::string& name, const T& val) {
 						//if the file isn't in write mode
 						if (this->mode != WRITE) {
 								//abort
