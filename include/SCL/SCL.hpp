@@ -112,8 +112,8 @@ namespace scl {
 					}
 				}
 			public:
-					const static int READ = 0;
-					const static int WRITE = 1;
+					constexpr static int READ = 0;
+					constexpr static int WRITE = 1;
 					
 					//iterator class
 					class iterator {
