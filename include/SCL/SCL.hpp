@@ -365,6 +365,10 @@ namespace scl {
 										T out;
 										ss >> out;
 										
+										if (ss.fail()) {
+											return def;
+										}
+										
 										return out;
 								//if no data exists with the name
 								} else {
@@ -391,6 +395,10 @@ namespace scl {
 											std::stringstream conv(temp);
 											T t;
 											conv >> t;
+											
+											if (conv.fail()) {
+												break;
+											}
 											
 											out.push_back(t);
 										}
