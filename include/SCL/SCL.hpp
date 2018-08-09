@@ -90,7 +90,7 @@ namespace scl {
 					}
 				}
 				
-				void open(std::string filename) {
+				void open(const std::string& filename) {
 					if (this->mode == READ) {
 						//open the fstream
 						this->file.open(filename, std::fstream::in);
