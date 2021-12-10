@@ -37,7 +37,7 @@ config_file rfile("example.config", config_file::READ);
 bool potatoes_are_good = rfile.get<bool>("potatoes_are_good");
 int num_potatoes = rfile.get<int>("num_potatoes");
 std::string fav_actor = rfile.get<string>("favorite actor");
-vector<int> player_color = rfile.gets<int>("color");
+vector<int> player_color = rfile.gets<vector<int>>("color");
 //close the file
 rfile.close();
 ```  
